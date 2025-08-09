@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Seamless horizontal marquee */
+@keyframes marquee-x {
+  0% { transform: translateX(0); }
+  /* Since the content is duplicated back-to-back, translating by -50% aligns the second copy perfectly */
+  100% { transform: translateX(-50%); }
+}
+
+/* Marquee styles aligned with mHealth */
+.hero-marquee-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-marquee-wrapper::before,
+.hero-marquee-wrapper::after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 64px;
+  z-index: 1;
+}
+
+.hero-marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(13,148,136,0.35), rgba(13,148,136,0));
+}
+
+.hero-marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(13,148,136,0.35), rgba(13,148,136,0));
+}
+
+.hero-marquee {
+  display: flex;
+  align-items: center;
+  gap: 5rem; /* increased spacing between logos */
+  white-space: nowrap;
+  padding-block: 6px;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-x var(--speed, 28s) linear infinite;
+}
+
+.hero-marquee img {
+  max-height: 72px; /* larger logos while keeping aspect ratio */
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+.marquee-active .hero-marquee {
+  animation-play-state: running;
+}
+
+.hero-marquee-wrapper:hover .hero-marquee {
+  animation-play-state: paused;
+}
+
+.separator {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: rgba(255,255,255,0.12);
+  vertical-align: middle;
+}
